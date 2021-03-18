@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.market79.webapp.dao.TestDAO"><!--namespace를 통해 UserDAO와 연결합니다. -->
+  <select id="selectTest" parameterType="com.market79.webapp.dto.TestDTO" resultType="com.market79.webapp.dto.TestDTO">
+  	SELECT `num`, `email`, `insert_date`
+    FROM client_info
+    <if test='insert_date != null and insert_date != ""'><!-- 만약 파라미터에 country가 있다면 SQL문에 WHERE절을 추가합니다. -->
+    	WHERE inser_date = #{insert_date}
+    </if>
+    limit 100
+  </select>
+</mapper>

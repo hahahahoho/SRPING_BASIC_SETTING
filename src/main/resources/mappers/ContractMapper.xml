@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.market79.webapp.dao.ContractDAO"><!--namespace를 통해 UserDAO와 연결합니다. -->  
+  <select id="getContract" parameterType="com.market79.webapp.dto.ContractDTO" resultType="com.market79.webapp.dto.ContractDTO">
+  	SELECT 
+  		no, 
+  		contractor_name, 
+  		company_name, 
+  		product_name, 
+  		phone, 
+  		address, 
+  		email, 
+  		oem, 
+  		odm, 
+  		contents, 
+  		sales,
+  		insert_date,
+  		finish_status
+    FROM contract
+    WHERE 1=1
+    <if test='contractor_name != null and !contractor_name.equals("")'>
+    	and contractor_name = #{contractor_name}
+    </if> 
+    <if test='company_name != null and !company_name.equals("")'>
+    	and name = #{company_name}
+    </if>
+    <if test='product_name != null and !product_name.equals("")'>
+    	and process_status = #{product_name}
+    </if>
+    <if test='insert_date != null and !insert_date.equals("")'>
+    	and insert_date = #{insert_date}
+    </if>
+    <if test='finish_status != null and !finish_status.equals("")'>
+    	and finish_status = #{finish_status}
+    </if>
+    <if test='page == null or page.equals("")'>
+    	limit 10
+    </if>
+    <if test='page != null and !page.equals("") and count == null or count == ""' >
+    	limit #{page}, 10
+    </if>
+    <if test='page != null and !page.equals("") and count != null and count != ""'>
+    	limit #{page}, ${count}
+    </if>
+  </select>
+  
+  <insert id="createContract"> 
+        INSERT INTO contract 
+        (
+	  		contractor_name, 
+	  		company_name, 
+	  		product_name, 
+	  		phone, 
+	  		address, 
+	  		email, 
+	  		oem, 
+	  		odm, 
+	  		contents, 
+	  		sales,
+	  		finish_status,
+	  		insert_date
+        ) 
+        VALUES 
+        (
+	        #{contractor_name},
+	        #{company_name},
+	        #{product_name},
+	        #{phone},
+	        #{address},
+	        #{email},
+	        #{oem},
+	        #{odm},
+	        #{contents},
+	        #{sales},
+	        #{finish_status},
+	        now()
+        ) 
+    </insert>
+	<update  id="updateContract"> 
+	      UPDATE contract SET 	      
+	  		contractor_name = #{contractor_name}, 
+	  		company_name = #{company_name}, 
+	  		product_name = #{product_name}, 
+	  		phone = #{phone}, 
+	  		address = #{address}, 
+	  		email = #{email}, 
+	  		oem = #{oem}, 
+	  		odm = #{odm}, 
+	  		contents = #{contents}, 
+	  		sales = #{sales},
+	  		finish_status = #{finish_status},
+	      WHERE 
+	      	no = ${no}
+	  </update>
+</mapper>
